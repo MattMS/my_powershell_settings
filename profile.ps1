@@ -73,8 +73,59 @@ Function Global:Get-StartTime {
 	ForEach-Object {$_.ToString("O")}
 }
 
+# dotnet
+# ------
+
+# Function Global:Add-ProjectLink {
+# 	[CmdletBinding()] param (
+# 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectItemTemplates])] [string] $Name
+# 	)
+# 	# $DestinationPath = Join-Path (Get-Location) "$Name.fs"
+# 	# $SourcePath = Join-Path -Path $PSScriptRoot -ChildPath "project-item-templates" -AdditionalChildPath "$Kind.fs"
+# 	# Copy-Item -Path $SourcePath -Destination $DestinationPath
+# }
+
+Class ProjectTemplates : System.Management.Automation.IValidateSetValuesGenerator {
+	[string[]] GetValidValues () {
+		$FolderPath = Join-Path -Path $PSScriptRoot -ChildPath "project-templates"
+		$Names = Get-ChildItem -Directory -Path $FolderPath | ForEach-Object {$_.BaseName}
+		return [string[]] $Names
+	}
+}
+
+# param([ValidateSet('classlib', 'console')] [string] $Kind)
+# dotnet new $Kind --language F# --no-restore
+Function Global:New-Project {
+	[CmdletBinding()] param (
+		# [Parameter(Mandatory = $true)] [ValidateSet("console", "fparsec", "fuchu", "library", "posh", "scraper", "sutil")] [string] $Kind
+		[Parameter(Mandatory = $true)] [ValidateSet([ProjectTemplates])] [string] $Kind
+	)
+	Copy-Item -Path (Join-Path -Path $PSScriptRoot -ChildPath "project-templates" -AdditionalChildPath $Kind, *)
+	Copy-Item -Path (Join-Path $PSScriptRoot "fsharp.editorconfig") -Destination (Join-Path (Get-Location) ".editorconfig")
+	Copy-Item -Path (Join-Path $PSScriptRoot "fsharp.gitignore") -Destination (Join-Path (Get-Location) ".gitignore")
+}
+
+Class ProjectItemTemplates : System.Management.Automation.IValidateSetValuesGenerator {
+	[string[]] GetValidValues () {
+		$FolderPath = Join-Path -Path $PSScriptRoot -ChildPath "project-item-templates"
+		$Names = Get-ChildItem -File -Path $FolderPath | ForEach-Object {$_.BaseName}
+		return [string[]] $Names
+	}
+}
+
+Function Global:New-ProjectItem {
+	[CmdletBinding()] param (
+		# [Parameter(Mandatory = $true)] [ValidateSet("class")] [string] $Kind
+		[Parameter(Mandatory = $true)] [ValidateSet([ProjectItemTemplates])] [string] $Kind
+		, [Parameter(Mandatory = $true)] [string] $Name
+	)
+	$DestinationPath = Join-Path (Get-Location) "$Name.fs"
+	$SourcePath = Join-Path -Path $PSScriptRoot -ChildPath "project-item-templates" -AdditionalChildPath "$Kind.fs"
+	Copy-Item -Path $SourcePath -Destination $DestinationPath
+}
+
 # NeoVim
-# ======
+# ------
 
 Function Global:Invoke-NeoVimPrint {
 	$n = New-TemporaryFile
