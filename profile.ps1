@@ -60,6 +60,11 @@ Set-Alias -Name now -Value Global:Get-Now
 $Env:SecondsInDay = 60 * 60 * 24
 $Env:SecondsInYear = 60 * 60 * 24 * 365
 
+# This is more accurate for perception of running processes.
+#
+# `(Get-Date) - (Get-Uptime)` will give a longer time in some cases.
+# Brackets are needed so the `-` is not treated as a parameter.
+#
 Function Global:Get-StartTime {
 	Get-Process |
 	Where-Object StartTime |
