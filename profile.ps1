@@ -13,7 +13,7 @@ $Env:NEOVIM_INIT_PATH = Join-Path $Env:HOMEPATH AppData Local nvim init.vim
 
 $Env:DOTNET_NEW_PREFERRED_LANG = "F#"
 
-Function Global:Prompt { "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") $($pwd -Replace "\\","/" -Replace ":","$")> " }
+Function Global:Prompt { "$(Get-Date -Format "yyyy-MM-dd HH:mm:ss") $((Get-Location) -Replace "\\","/" -Replace ":","$")> " }
 
 # Settings
 # ========
