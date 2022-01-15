@@ -107,15 +107,12 @@ Class ProjectItemTemplates : System.Management.Automation.IValidateSetValuesGene
 	}
 }
 
-Function Global:New-ProjectItem {
+Function Global:Get-ProjectItem {
 	[CmdletBinding()] param (
-		# [Parameter(Mandatory = $true)] [ValidateSet("class")] [string] $Kind
 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectItemTemplates])] [string] $Kind
-		, [Parameter(Mandatory = $true)] [string] $Name
 	)
-	$DestinationPath = Join-Path (Get-Location) "$Name.fs"
 	$SourcePath = Join-Path -Path $PSScriptRoot -ChildPath "project-item-templates" -AdditionalChildPath "$Kind.fs"
-	Copy-Item -Path $SourcePath -Destination $DestinationPath
+	Get-Content -Path $SourcePath
 }
 
 # NeoVim
