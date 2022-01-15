@@ -80,9 +80,6 @@ Function Global:Get-StartTime {
 # 	[CmdletBinding()] param (
 # 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectItemTemplates])] [string] $Name
 # 	)
-# 	# $DestinationPath = Join-Path (Get-Location) "$Name.fs"
-# 	# $SourcePath = Join-Path -Path $PSScriptRoot -ChildPath "project-item-templates" -AdditionalChildPath "$Kind.fs"
-# 	# Copy-Item -Path $SourcePath -Destination $DestinationPath
 # }
 
 Class ProjectTemplates : System.Management.Automation.IValidateSetValuesGenerator {
@@ -93,11 +90,8 @@ Class ProjectTemplates : System.Management.Automation.IValidateSetValuesGenerato
 	}
 }
 
-# param([ValidateSet('classlib', 'console')] [string] $Kind)
-# dotnet new $Kind --language F# --no-restore
 Function Global:New-Project {
 	[CmdletBinding()] param (
-		# [Parameter(Mandatory = $true)] [ValidateSet("console", "fparsec", "fuchu", "library", "posh", "scraper", "sutil")] [string] $Kind
 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectTemplates])] [string] $Kind
 	)
 	Copy-Item -Path (Join-Path -Path $PSScriptRoot -ChildPath "project-templates" -AdditionalChildPath $Kind, *)
