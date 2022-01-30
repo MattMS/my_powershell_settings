@@ -95,8 +95,8 @@ Function Global:New-Project {
 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectTemplates])] [string] $Kind
 	)
 	Copy-Item -Path (Join-Path -Path $PSScriptRoot -ChildPath "project-templates" -AdditionalChildPath $Kind, *)
-	Copy-Item -Path (Join-Path $PSScriptRoot "fsharp.editorconfig") -Destination (Join-Path (Get-Location) ".editorconfig")
-	Copy-Item -Path (Join-Path $PSScriptRoot "fsharp.gitignore") -Destination (Join-Path (Get-Location) ".gitignore")
+	# Copy-Item -Path (Join-Path $PSScriptRoot "fsharp.editorconfig") -Destination (Join-Path (Get-Location) ".editorconfig")
+	# Copy-Item -Path (Join-Path $PSScriptRoot "fsharp.gitignore") -Destination (Join-Path (Get-Location) ".gitignore")
 }
 
 Class ProjectItemTemplates : System.Management.Automation.IValidateSetValuesGenerator {
