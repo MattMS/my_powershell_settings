@@ -123,3 +123,18 @@ Function Global:Invoke-NeoVimPrint {
 	nvim $n.FullName
 	Get-Content $n.FullName
 }
+
+# Node
+# ----
+
+Function Global:Get-NpmGlobal {
+	$npm = npm ls --depth=0 --global --json | ConvertFrom-Json
+	$npm.dependencies.PSObject.Properties | %{[PSCustomObject]@{Name = $_.Name; Version = $_.Value.version}}
+}
+
+Function Global:Update-NpmGlobal {
+	[CmdletBinding()] param (
+		[Parameter(Mandatory = $true)] [string] $PackageName
+	)
+	npm update --global $PackageName
+}
