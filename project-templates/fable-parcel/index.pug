@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+		link(href="styles.styl" rel="stylesheet")
+	body
+		main
+			h1 It works!
+			div#extra
+		//- script(type="module" src="App.fs.js")
+		script(type="module").
+			import {getHello} from './App.fs.js'
+			document.getElementById("extra").innerText = getHello("from Fable")

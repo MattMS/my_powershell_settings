@@ -1,0 +1,11 @@
+{
+	"devDependencies": {
+		"@parcel/transformer-pug": "^2.7.0",
+		"@parcel/transformer-stylus": "^2.7.0"
+	},
+	"private": "true",
+	"scripts": {
+		"build": "dotnet fable",
+		"start": "parcel index.pug"
+	}
+}
