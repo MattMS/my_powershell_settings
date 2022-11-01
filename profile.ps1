@@ -28,6 +28,21 @@ Function Global:dotenv {
 # Functions
 # =========
 
+function ConvertFrom-Base64 {
+	[CmdletBinding()] param (
+		[Parameter(Mandatory, ValueFromPipeline)] [string] $Value
+	)
+	[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($Value))
+}
+
+function ConvertTo-Base64 {
+	[CmdletBinding()] param (
+		[Parameter(Mandatory, ValueFromPipeline)] $Value
+	)
+	# [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($Value))
+	[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($Value))
+}
+
 # https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
 Function Global:Get-Now {
 	# $epoch = [DateTimeOffset]::FromUnixTimeSeconds(0)
