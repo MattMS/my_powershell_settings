@@ -28,15 +28,15 @@ Function Global:dotenv {
 # Functions
 # =========
 
-function ConvertFrom-Base64 {
-	[CmdletBinding()] param (
+Function ConvertFrom-Base64 {
+	[CmdletBinding()] Param (
 		[Parameter(Mandatory, ValueFromPipeline)] [string] $Value
 	)
 	[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($Value))
 }
 
-function ConvertTo-Base64 {
-	[CmdletBinding()] param (
+Function ConvertTo-Base64 {
+	[CmdletBinding()] Param (
 		[Parameter(Mandatory, ValueFromPipeline)] $Value
 	)
 	# [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($Value))
@@ -88,8 +88,8 @@ Function Global:Get-StartTime {
 	ForEach-Object {$_.ToString("O")}
 }
 
-# dotnet
-# ------
+# Projects
+# ========
 
 # Function Global:Add-ProjectLink {
 # 	[CmdletBinding()] param (
@@ -106,7 +106,7 @@ Class ProjectTemplates : System.Management.Automation.IValidateSetValuesGenerato
 }
 
 Function Global:New-Project {
-	[CmdletBinding()] param (
+	[CmdletBinding()] Param (
 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectTemplates])] [string] $Kind
 	)
 	Copy-Item -Path (Join-Path -Path $PSScriptRoot -ChildPath "project-templates" -AdditionalChildPath $Kind, *)
@@ -123,7 +123,7 @@ Class ProjectItemTemplates : System.Management.Automation.IValidateSetValuesGene
 }
 
 Function Global:Get-ProjectItem {
-	[CmdletBinding()] param (
+	[CmdletBinding()] Param (
 		[Parameter(Mandatory = $true)] [ValidateSet([ProjectItemTemplates])] [string] $Kind
 	)
 	$SourcePath = Join-Path -Path $PSScriptRoot -ChildPath "project-item-templates" -AdditionalChildPath "$Kind.fs"
@@ -147,8 +147,15 @@ Function Global:Get-NpmGlobal {
 	$npm.dependencies.PSObject.Properties | %{[PSCustomObject]@{Name = $_.Name; Version = $_.Value.version}}
 }
 
+Function Global:Install-NpmGlobal {
+	[CmdletBinding()] Param (
+		[Parameter(Mandatory = $true)] [string] $PackageName
+	)
+	npm install --global $PackageName
+}
+
 Function Global:Update-NpmGlobal {
-	[CmdletBinding()] param (
+	[CmdletBinding()] Param (
 		[Parameter(Mandatory = $true)] [string] $PackageName
 	)
 	npm update --global $PackageName
