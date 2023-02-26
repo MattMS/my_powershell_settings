@@ -97,6 +97,13 @@ Function Global:Get-StartTime {
 # 	)
 # }
 
+Function Global:Get-ProjectTemplate {
+	# $DetailsPath = Join-Path -Path $PSScriptRoot -ChildPath "details.ini"
+
+	$FolderPath = Join-Path -Path $PSScriptRoot -ChildPath "project-templates"
+	Get-ChildItem -Directory -Path $FolderPath | ForEach-Object {$_.BaseName}
+}
+
 Class ProjectTemplates : System.Management.Automation.IValidateSetValuesGenerator {
 	[string[]] GetValidValues () {
 		$FolderPath = Join-Path -Path $PSScriptRoot -ChildPath "project-templates"
