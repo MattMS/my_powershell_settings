@@ -5,7 +5,7 @@
 	},
 	"private": "true",
 	"scripts": {
-		"build": "dotnet fable",
+		"build": "fable",
 		"start": "parcel index.pug"
 	}
 }
